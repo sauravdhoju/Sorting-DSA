@@ -147,7 +147,7 @@ void collectAndVisualizeInput() {
 
 
     // Moved the Data: prompt to be displayed in front of "Data: "
-    gotoxy(x + 70, 4);
+    gotoxy( 70, 4);
     std::cout << "Quick Sort Visualization";
 
     gotoxy(x + 68, 25);
@@ -168,15 +168,22 @@ void collectAndVisualizeInput() {
 
             if (key == 's' || key == 'S') {
                 if (intVector.empty()) {
+                    system("cls");
+                    gotoxy(70, 4);
+                    std::cout << "Quick Sort Visualization";
+                    gotoxy(72, 20);
                     std::cout << "No data to sort.\n";
+                    _getch();
+                    system("cls");
+                    gotoxy(70, 4);
+                    std::cout << "Quick Sort Visualization";
+                    gotoxy(68, 25);
+                    std::cout << " Press 'S' to start sorting :) ";
+                    gotoxy(73, 7);
+                    std::cout << " Enter data: ";
                 }
                 else {
-
-
-                    // Rearrange elements based on pivot (last element)
-                    //rearrangeWithPivot(intVector, lastElement);
                     quickSort(intVector, 1, intVector.size() - 1, 0);
-
 
                     std::cout << "Sorted integer vector: ";
                     printIntArray(intVector);
@@ -201,9 +208,7 @@ void collectAndVisualizeInput() {
 
                 int boxWidth = maxDigits + 4;
                 drawBox(num, x, y, boxWidth, std::to_string(num).length());
-
                 x += boxWidth + boxGap; // Add gap between boxes
-
                 inputLine.clear();
             }
         }

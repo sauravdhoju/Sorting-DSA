@@ -1,2 +1,3 @@
 F:\cr\KhEC\Third Semester\Project\QuickSortProject\x64\Debug\QuickSortProject.exe
 F:\KhEC\Third Semester\Project\QuickSortProject\x64\Debug\QuickSortProject.exe
+F:\KhEC\Third Semester\Project\Quick\Sorting-DSA\x64\Debug\QuickSortProject.exe

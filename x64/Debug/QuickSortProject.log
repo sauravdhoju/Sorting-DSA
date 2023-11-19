@@ -1,1 +1,6 @@
-﻿  QuickSortProject.vcxproj -> F:\KhEC\Third Semester\Project\QuickSortProject\x64\Debug\QuickSortProject.exe
+﻿  Main.cpp
+F:\KhEC\Third Semester\Project\Quick\Sorting-DSA\Main.cpp(107,100): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+F:\KhEC\Third Semester\Project\Quick\Sorting-DSA\Main.cpp(186,62): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+F:\KhEC\Third Semester\Project\Quick\Sorting-DSA\Main.cpp(203,32): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+F:\KhEC\Third Semester\Project\Quick\Sorting-DSA\Main.cpp(210,72): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+  QuickSortProject.vcxproj -> F:\KhEC\Third Semester\Project\Quick\Sorting-DSA\x64\Debug\QuickSortProject.exe
