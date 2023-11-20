@@ -161,7 +161,7 @@ void headings() {
     gotoxy(70, 4);
     std::cout << "Quick Sort Visualization";
 
-    gotoxy(68, 6);
+    gotoxy(125, 39);
     std::cout << " Press 'S' to start sorting :) ";
 
     gotoxy(73, 7);
