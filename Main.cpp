@@ -7,8 +7,9 @@
 
 
 int maxDigits = 0;
+int boxWidth = 0;
 int boxGap = 3; // Space between boxes
-
+int count = 0;
 void swap(int& a, int& b) {
     int temp = a;
     a = b;
@@ -89,11 +90,11 @@ void printVector(const std::vector<int>& arr, int pivot) {
     std::cout << std::endl;
 }
 
-void printBoxVector(const std::vector<int>& arr, int pivot, int start, int end, int depth) {
-    std::cout << "\nPivot element: " << arr[pivot] << std::endl;
-    int boxWidth = maxDigits + 4;
+void printBoxVector(const std::vector<int>& arr, int start, int end) {
+    //std::cout << "\nPivot element: " << arr[pivot] << std::endl;
+    boxWidth = maxDigits + 4;
     int x = 5;
-    int  y = 13 + depth * 4;
+    int  y = 13;
     for (size_t i = start; i <= end; ++i) {
         /*if (i == pivot) {
 
@@ -104,40 +105,68 @@ void printBoxVector(const std::vector<int>& arr, int pivot, int start, int end, 
         }*/
 
 
-        drawBox(arr[i], x + start * (boxWidth + boxGap), y, boxWidth, std::to_string(arr[i]).length());
+        drawBox(arr[i], x + start * (boxWidth + boxGap), y + 5 * count, boxWidth, std::to_string(arr[i]).length());
 
         x += boxWidth + boxGap; // Add gap between boxes
     }
     std::cout << std::endl;
 }
 
-bool quickSort(std::vector<int>& arr, int startIndex, int endIndex, int depth) {
-    if (startIndex > endIndex)return false;
+bool quickSort(std::vector<int>& arr, int startIndex, int endIndex) {
+    if (startIndex > endIndex) return false;
+    printBoxVector(arr, startIndex - 1, endIndex);
     int i = startIndex, j = endIndex;
     int swapI = 0, swapJ = 0;
     bool inI = false, inJ = false;
+    gotoxy(7 + (maxDigits + 1) / 2 + (boxGap + boxWidth) * (startIndex - 1), 17 + 5 * count); std::cout << "p-" << startIndex - 1;
     while (j >= i) {
-        //std::cout <<'(' << i << ',' << j << ')';
+        gotoxy(7 + (maxDigits + 1) / 2 + (boxGap + boxWidth) * i, 17 + 5 * count); std::cout << "i-" << i;
+        gotoxy(7 + (maxDigits + 1) / 2 + (boxGap + boxWidth) * j, 17 + 5 * count); std::cout << "j-" << j;
+        if (i == j) {
+            gotoxy(7 + (maxDigits + 1) / 2 + (boxGap + boxWidth) * i, 17 + 5 * count); std::cout << "ij-" << i;
+        }
+        _getch();
         if (arr[i] > arr[startIndex - 1]) { swapI = i; inI = true; }
         if (arr[j] < arr[startIndex - 1]) { swapJ = j; inJ = true; }
         if (inI && inJ) {
             swap(arr[swapI], arr[swapJ]);
             inI = false; inJ = false;
         }
-        if (!inJ)j--;
-        if (!inI)i++;
+
+        if (!inI) {
+            gotoxy(7 + (maxDigits + 1) / 2 + (boxGap + boxWidth) * i, 17 + 5 * count); std::cout << "     ";
+            i++;
+        }
+
+        if (!inJ) {
+            gotoxy(7 + (maxDigits + 1) / 2 + (boxGap + boxWidth) * j, 17 + 5 * count); std::cout << "     ";
+            j--;
+        }
     }
     int temp = arr[startIndex - 1];
     swap(arr[startIndex - 1], arr[j]);
-    // printVector(arr, j);
-    printBoxVector(arr, j, startIndex - 1, endIndex, depth);
+    gotoxy(7 + (maxDigits + 1) / 2 + (boxGap + maxDigits) * (startIndex - 1), 17 + 5 * count); std::cout << "    ";
+    gotoxy(7 + (maxDigits + 1) / 2 + (boxGap + boxWidth) * j, 17 + 5 * count); std::cout << "p-" << j;
+    printBoxVector(arr, startIndex - 1, endIndex);
     _getch();
-    quickSort(arr, startIndex, j - 1, ++depth);
-
-    quickSort(arr, j + 2, endIndex, ++depth);
+    ++count;
+    //system("cls");
+    quickSort(arr, startIndex, j - 1);
+    quickSort(arr, j + 2, endIndex);
     return true;
 }
 
+
+void headings() {
+    gotoxy(70, 4);
+    std::cout << "Quick Sort Visualization";
+
+    gotoxy(68, 6);
+    std::cout << " Press 'S' to start sorting :) ";
+
+    gotoxy(73, 7);
+    std::cout << " Enter data: ";
+}
 
 void collectAndVisualizeInput() {
     std::vector<int> intVector;
@@ -145,19 +174,18 @@ void collectAndVisualizeInput() {
     int windowWidth = getWindowWidth();
     int x = 0;
 
-
+    headings();
     // Moved the Data: prompt to be displayed in front of "Data: "
-    gotoxy( 70, 4);
+    /*gotoxy( 70, 4);
     std::cout << "Quick Sort Visualization";
 
     gotoxy(x + 68, 25);
     std::cout << " Press 'S' to start sorting :) ";
 
-    gotoxy(x + 73, 7);
     std::cout << " Enter data: ";
+    gotoxy(x + 73, 7);*/
 
     int y = 10;
-
     std::string inputLine;
     char key;
     int pivotY = 8; // Y position for displaying the pivot element
@@ -175,40 +203,41 @@ void collectAndVisualizeInput() {
                     std::cout << "No data to sort.\n";
                     _getch();
                     system("cls");
-                    gotoxy(70, 4);
-                    std::cout << "Quick Sort Visualization";
-                    gotoxy(68, 25);
-                    std::cout << " Press 'S' to start sorting :) ";
-                    gotoxy(73, 7);
-                    std::cout << " Enter data: ";
+                    headings();
                 }
                 else {
-                    quickSort(intVector, 1, intVector.size() - 1, 0);
-
+                    printBoxVector(intVector, 0, intVector.size() - 1); count++;
+                    quickSort(intVector, 1, intVector.size() - 1);
                     std::cout << "Sorted integer vector: ";
-                    printIntArray(intVector);
+                    printBoxVector(intVector, 0, intVector.size() - 1);
                     break;
                 }
             }
-            else if (isdigit(key)) {
-                std::cout << key;
+            else if (isdigit(key) && inputLine.length() < 3) {
                 inputLine += key;
+                headings();
+                std::cout << inputLine << "     ";
+                gotoxy(86 + inputLine.length(), 7);
             }
             else if (key == 13 && !inputLine.empty()) {
                 num = std::stoi(inputLine);
                 intVector.push_back(num);
 
 
+
                 for (int number : intVector) {
                     int digits = std::to_string(number).length();
                     if (digits > maxDigits) {
                         maxDigits = digits;
+                        system("cls"); headings();
                     }
                 }
 
                 int boxWidth = maxDigits + 4;
-                drawBox(num, x, y, boxWidth, std::to_string(num).length());
-                x += boxWidth + boxGap; // Add gap between boxes
+                //drawBox(num, x, y, boxWidth, std::to_string(num).length());
+                //x += boxWidth + boxGap; // Add gap between boxes
+
+                printBoxVector(intVector, 0, intVector.size() - 1);
                 inputLine.clear();
             }
         }
@@ -222,6 +251,8 @@ int main() {
     std::cout << "QUICK SORT VISUALIZATION";
     _getch();
     system("cls");
+
+
     collectAndVisualizeInput();
 
     std::cout << "Press any key to exit...";
